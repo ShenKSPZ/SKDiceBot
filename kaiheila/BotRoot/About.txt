@@ -1,5 +1,5 @@
 欢迎使用深空制作的跑团骰子娘-素包子
-本骰娘使用SKDiceBot框架v1.1
+本骰娘使用SKDiceBot框架v1.2
 项目开源地址：https://github.com/ShenKSPZ/SKDiceBot
 开发者：深空#4088
 
