@@ -3,7 +3,7 @@
 1. 跟开黑啦官方申请机器人
 2. 安装NodeJS 14.x或更高
 3. 打开kaiheila/BotRoot/config.json
-4. 修改代码文件中开头部分的 key，token 和 verifyToken，这些数值都在你的开黑啦机器人的控制面板可以看到
+4. 修改文件中的 key，token 和 verifyToken，这些数值都在你的开黑啦机器人的控制面板可以看到
 ```Json
 {
   "mode": "webhook",
