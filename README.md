@@ -21,7 +21,7 @@
 node kaiheila/BotRoot/SKDiceBot.js
 ```
 
-看到控制台提示“机器人启动完成！”就代表机器人启动成功了
+看到控制台提示“DiceBot Start!”就代表机器人启动成功了
 
 7. 在开黑啦的控制面板的Callback URL填入："http://[你的IP或域名]:8080/?compress=0"
 
