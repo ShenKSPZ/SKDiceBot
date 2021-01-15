@@ -1,0 +1,7 @@
+{
+    "mode": "webhook",
+    "port": 8080,
+    "key": "YOUR ENCRYPT KEY HERE",
+    "token": "YOUR TOKEN HERE",
+    "verifyToken": "YOUR VERIFY TOKEN HERE"
+}

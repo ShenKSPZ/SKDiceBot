@@ -1,29 +1,62 @@
 const Bot = require('kaiheila-bot-root').KaiheilaBot
 var fs = require('fs');
 const types_1 = require("kaiheila-bot-root/dist/types")
-
-const bot = new Bot({
-  mode: "webhook",
-  port: 8080,
-  key: "YOUR KEY HERE",
-  token: "YOUR TOEKN HERE",
-  verifyToken: "YOUR VERIFY TOEKN HERE"
-})
-
 const NumPatt = /^[0-9]*$/;
+var cmsg;
+var bot;
 
-var cmsg
+let BotConfig = {
+    mode: "",
+    port: 0,
+    key: "",
+    token: "",
+    verifyToken: ""
+}
 
-bot.listen()
-
-bot.on('textmessage', (e) => {
-  cmsg = new types_1.TextMessage(e);
-  Process(cmsg.content);
-  //bot.sendChannelMessage(types_1.MessageType.text, msg.channelId, msg.author.username + '说：' + msg.content, msg.msgId);
-})
+fs.readFile("./config.json", (error, data) => {
+    if (error) {
+        console.log("未能成功读取到配置文件:\n");
+        console.log(error);
+    }
+    else {
+        BotConfig = JSON.parse(data.toString());
+        bot = new Bot({
+            mode: BotConfig.mode,
+            port: BotConfig.port,
+            key: BotConfig.key,
+            token: BotConfig.token,
+            verifyToken: BotConfig.verifyToken
+        });
+        bot.listen();
+        bot.on('textmessage', (e) => {
+            cmsg = new types_1.TextMessage(e);
+            Process(cmsg.content);
+        });
+        global.botInstance = bot
+        console.log('DiceBot Start!');
+    }
+});
 
 function Process(i) {
     var input = new String(i).toLowerCase();
+    if (new String(input).search("@素包子#1132416142 ") != -1){
+		var temp = new String(input).replace("@素包子#1132416142 ", "");
+		if(temp != ""){
+			input = temp;
+		}
+		else{
+			Send('请输入"-help"或"-帮助"来查看骰子娘的使用方法。');
+		}
+    }
+    else if (new String(input).search("@素包子#1132416142") != -1){
+        var temp = new String(input).replace("@素包子#1132416142", "");
+        if(temp != ""){
+                input = temp;
+        }
+        else{
+                Send('请输入"-help"或"-帮助"来查看骰子娘的使用方法。');
+        }
+    }
     if (input[0] == '-') {
         var Comm = new String(input).substring(1, input.length);
         console.log('Receive Commend:' + Comm + " From " + cmsg.channelName + "(" + cmsg.channelId + ") send by: " + cmsg.author.username + "(" + cmsg.author.id + ")");
@@ -35,29 +68,29 @@ function Process(i) {
 		//关于
 		About();
         }
-	else if (Comm[0] == 'r' && Comm[1] == 'h'){
-		//暗骰
-		SecretDice();
-	}
-	else if (Comm[0] == 'r'){
-		//正常投点
-		Roll(new String(Comm).substring(1, Comm.length));
-	}
-	else if (Comm == 'coc7人物卡' || Comm == '获取coc7人物卡') {
-		Send("COC7版人物卡下载地址：https://www.jianguoyun.com/p/DeMhdv4Ql5e1BxiahboB");
+        else if (Comm[0] == 'r' && Comm[1] == 'h'){
+            //暗骰
+            SecretDice();
         }
-        else if (Comm == 'coc7') {
-		COC7();
+        else if (Comm[0] == 'r'){
+            //正常投点
+            Roll(new String(Comm).substring(1, Comm.length));
         }
-        else if (Comm == 'coc') {
-		Send('目前只支持随机生成COC 7版的人物卡，请输入 -COC7 来生成，想要帮忙开发这个功能请添加“深空#4088”为好友来一起让素包子变得更好');
+        else if (Comm == 'coc7人物卡' || Comm == '获取coc7人物卡') {
+            Send("COC7版人物卡下载地址：https://www.jianguoyun.com/p/DeMhdv4Ql5e1BxiahboB");
+            }
+            else if (Comm == 'coc7') {
+            COC7();
+            }
+            else if (Comm == 'coc') {
+            Send('目前只支持随机生成COC 7版的人物卡，请输入 -COC7 来生成，想要帮忙开发这个功能请添加“深空#4088”为好友来一起让素包子变得更好');
+            }
+            else if (Comm == 'dnd') {
+            Send('目前只支持随机生成COC 7版的人物卡，素包子暂时还没有玩过DND，想要帮忙开发这个功能请添加“深空#4088”为好友来一起让素包子变得更好');
+            }
+        else if (Comm[0] == "s" && Comm[1] == "c"){
+            SanCheck(new String(Comm).substring(2, Comm.length));
         }
-        else if (Comm == 'dnd') {
-		Send('目前只支持随机生成COC 7版的人物卡，素包子暂时还没有玩过DND，想要帮忙开发这个功能请添加“深空#4088”为好友来一起让素包子变得更好');
-        }
-	else if (Comm[0] == "s" && Comm[1] == "c"){
-		SanCheck(new String(Comm).substring(2, Comm.length));
-	}
     }
 }
 
@@ -565,6 +598,3 @@ function Send(s)
         bot.sendChannelMessage(types_1.MessageType.text, cmsg.channelId, s, cmsg.msgId);
     }
 }
-
-global.botInstance = bot
-console.log('DiceBotStart!')
