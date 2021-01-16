@@ -10,7 +10,8 @@ let BotConfig = {
     port: 0,
     key: "",
     token: "",
-    verifyToken: ""
+    verifyToken: "",
+    BotName: "",
 }
 
 fs.readFile("./config.json", (error, data) => {
@@ -39,8 +40,8 @@ fs.readFile("./config.json", (error, data) => {
 
 function Process(i) {
     var input = new String(i).toLowerCase();
-    if (new String(input).search("@素包子#1132416142 ") != -1){
-		var temp = new String(input).replace("@素包子#1132416142 ", "");
+    if (new String(input).search(`@${BotConfig.BotName} `) != -1){
+        var temp = new String(input).replace(`@${BotConfig.BotName} `, "");
 		if(temp != ""){
 			input = temp;
 		}
@@ -48,8 +49,8 @@ function Process(i) {
 			Send('请输入"-help"或"-帮助"来查看骰子娘的使用方法。');
 		}
     }
-    else if (new String(input).search("@素包子#1132416142") != -1){
-        var temp = new String(input).replace("@素包子#1132416142", "");
+    else if (new String(input).search(`@${BotConfig.BotName}`) != -1){
+        var temp = new String(input).replace(`@${BotConfig.BotName}`, "");
         if(temp != ""){
                 input = temp;
         }
@@ -59,14 +60,14 @@ function Process(i) {
     }
     if (input[0] == '-') {
         var Comm = new String(input).substring(1, input.length);
-        console.log('Receive Commend:' + Comm + " From " + cmsg.channelName + "(" + cmsg.channelId + ") send by: " + cmsg.author.username + "(" + cmsg.author.id + ")");
+        console.log(`Receive Commend: ${Comm} From ${cmsg.channelName}(${cmsg.channelId}) Sent by: ${cmsg.author.username}(${cmsg.author.id})`);
         if (Comm == 'help' || Comm == '帮助') {
-		//帮助
-		Help();
+            //帮助
+            Help();
         }
         else if (Comm == 'about' || Comm == '关于') {
-		//关于
-		About();
+            //关于
+            About();
         }
         else if (Comm[0] == 'r' && Comm[1] == 'h'){
             //暗骰
@@ -103,7 +104,7 @@ function SanCheck(i){
 			if(NumPatt.test(sp[1])){
 				var skill = parseInt(sp[1]);
 				var ran = Math.floor(Math.random() * 100 + 1);
-                var Text = cmsg.author.username + "投掷出了：" + ran.toString();
+                var Text = `${cmsg.author.username}投掷出了：${ran.toString()}`;
                 //深空投掷出了：45 成功
                 //SanCheck检定：1d3 = 1
                 //最终San值：45 - 1 = 44
@@ -112,7 +113,7 @@ function SanCheck(i){
                     if (NumPatt.test(sp[0])) {
                         var Int = parseInt(sp[0]);
                         var skill = parseInt(sp[1]);
-                        Text += "最大值 " + sp[0] + "\n最终San值：" + sp[1] + " - " + sp[0] + " = " + (skill - Int).toString();
+                        Text += `最大值 ${sp[0]}\n最终San值：${sp[1]} - ${sp[0]} = ${(skill - Int).toString()}`;
                         Send(Text);
                     }
                     else {
@@ -121,7 +122,7 @@ function SanCheck(i){
                             if (NumPatt.test(ft[0]) && NumPatt.test(ft[1])) { //sc[sl0]/[ft0]d[ft1][/s][sp1]
                                 var Int = parseInt(ft[0]) * parseInt(ft[1]);
                                 var skill = parseInt(sp[1]);
-                                Text += "最大值 " + ft[0] + "\n最终San值：" + sp[1] + " - " + ft[1] + " = " + (skill - Int).toString();
+                                Text += `最大值 ${ft[0]}\n最终San值：${sp[1]} - ${ft[1]} = ${(skill - Int).toString()}`;
                                 Send(Text);
                             }
                         }
@@ -132,7 +133,7 @@ function SanCheck(i){
                     if (NumPatt.test(scm[0])) {
                         var Int = parseInt(sc[0]);
                         var skill = parseInt(sc[1]);
-                        Text += "最小值 " + sp[0] + "\n最终San值：" + sp[1] + " - " + sp[0] + " = " + (skill - Int).toString();
+                        Text += `最小值 ${sp[0]}\n最终San值：${sp[1]} - ${sp[0]} = ${(skill - Int).toString()}`;
                         Send(Text);
                     }
                     else {
@@ -141,7 +142,7 @@ function SanCheck(i){
                             if (NumPatt.test(ft[0]) && NumPatt.test(ft[1])) {
                                 var Int = parseInt(ft[0]);
                                 var skill = parseInt(sp[1]);
-                                Text += "最小值 " + ft[0] + "\n最终San值：" + sp[1] + " - " + ft[0] + " = " + (skill - Int).toString();
+                                Text += `最小值 ${ft[0]}\n最终San值：${sp[1]} - ${ft[0]} = ${(skill - Int).toString()}`;
                                 Send(Text);
                             }
                         }
@@ -152,7 +153,7 @@ function SanCheck(i){
                     if (NumPatt.test(sp[0])) { //sc[sl0]/[sp0][/s][sp1]
                         var Int = parseInt(sp[0]);
                         var skill = parseInt(sp[1]);
-                        Text += sp[0] + "\n最终San值：" + sp[1] + " - " + sp[0] + " = " + (skill - Int).toString();
+                        Text += sp[0] + `\n最终San值：${sp[1]} - ${sp[0]} = ${(skill - Int).toString()}`;
                         Send(Text);
                     }
                     else {
@@ -168,14 +169,13 @@ function SanCheck(i){
                                     var ran = Math.floor(Math.random() * diceMax + 1);
                                     Sum += ran;
                                     if (index < diceNum - 1) {
-                                        Text += ran.toString() + " + ";
+                                        Text += `${ran.toString()} + `;
                                     }
                                     else if (index == diceNum - 1) {
                                         Text += ran.toString() + ") = ";
                                     }
                                 }
-                                
-                                Text += Sum.toString() + "\n最终San值：" + sp[1] + " - " + Sum.toString() + " = " + (skill - Sum).toString();
+                                Text += `${Sum.toString()}\n最终San值：${sp[1]} - ${Sum.toString()} = ${(skill - Sum).toString()}`;
                                 Send(Text);
                             }
                         }
@@ -186,7 +186,7 @@ function SanCheck(i){
                     if (NumPatt.test(sl[0])) { //sc[sl0]/[sp0][/s][sp1]
                         var Int = parseInt(sl[0]);
                         var skill = parseInt(sp[1]);
-                        Text += sl[0] + "\n最终San值：" + sp[1] + " - " + sl[0] + " = " + (skill - Int).toString();
+                        Text += `${sl[0]}\n最终San值：${sp[1]} - ${sl[0]} = ${(skill - Int).toString()}`;
                         Send(Text);
                     }
                     else {
@@ -202,14 +202,14 @@ function SanCheck(i){
                                     var ran = Math.floor(Math.random() * diceMax + 1);
                                     Sum += ran;
                                     if (index < diceNum - 1) {
-                                        Text += ran.toString() + " + ";
+                                        Text += `${ran.toString()} + `;
                                     }
                                     else if (index == diceNum - 1) {
-                                        Text += ran.toString() + ") = ";
+                                        Text += `${ran.toString()} = `;
                                     }
                                 }
 
-                                Text += Sum.toString() + "\n最终San值：" + sp[1] + " - " + Sum.toString() + " = " + (skill - Sum).toString();
+                                Text += `${Sum.toString()}\n最终San值：${sp[1]} - ${Sum.toString()} = ${(skill - Sum).toString()}`;
                                 Send(Text);
                             }
                         }
@@ -230,15 +230,7 @@ function COC7()
     var INT = BasePoint();
     var POW = BasePoint();
     var EDU = BasePoint();
-    Send(cmsg.author.username
-        + '的随机人物属性：\n力量STR：' + STR
-        + '\n体质CON：' + CON
-        + '\n体型SIZ：' + SIZ
-        + '\n敏捷DEX：' + DEX
-        + '\n外貌APP：' + APP
-        + '\n智力INT：' + INT
-        + '\n意志POW：' + POW
-        + '\n教育EDU：' + EDU);
+    Send(`${cmsg.author.username}的随机人物属性：\n力量STR：${STR}\n体质CON：${CON}\n体型SIZ：${SIZ}\n敏捷DEX：${DEX}\n外貌APP：${APP}\n智力INT：${INT}\n意志POW：${POW}\n教育EDU：${EDU}`);
 }
 
 function BasePoint()
@@ -262,25 +254,25 @@ function Roll(i) {
                             var diceMax = parseInt(ft[1]);
                             if (diceNum <= 1000 && diceMax <= 10000) { //为避免服务器压力过大或被人爆破，限制一下dice的个数上限为一千个，dice的面数最多为一万面
                                 var Sum = 0;
-                                var Text = cmsg.author.username + "投掷出了：(";
+                                var Text = `${cmsg.author.username}投掷出了：(`;
 
                                 for (let index = 0; index < diceNum; index++) {
                                     var ran = Math.floor(Math.random() * diceMax + 1);
                                     Sum += ran;
                                     if (index < diceNum - 1) {
-                                        Text += ran.toString() + " + ";
+                                        Text += `${ran.toString()} + `;
                                     }
                                     else if (index == diceNum - 1) {
-                                        Text += ran.toString() + ")";
+                                        Text += `${ran.toString()})`;
                                     }
                                 }
 
-                                Text += " = " + Sum.toString();
+                                Text += ` =  ${Sum.toString()}`;
 
                                 Send(Text);
                             }
                             else {
-                                Send("为避免服务器压力过大，一次最多只能投掷一千个骰子，每个骰子最多一万面\n当前设定的骰子数：" + diceNum + "\n当前设定的骰子面数：" + diceMax);
+                                Send(`为避免服务器压力过大，一次最多只能投掷一千个骰子，每个骰子最多一万面\n当前设定的骰子数：${diceNum}\n当前设定的骰子面数：${diceMax}`);
                             }
                         }
                     }
@@ -291,27 +283,27 @@ function Roll(i) {
                             var skill = parseInt(sp[1]);
                             if (diceNum <= 1000 && diceMax <= 10000) { //为避免服务器压力过大或被人爆破，限制一下dice的个数上限为一千个，dice的面数最多为一万面
                                 var Sum = 0;
-                                var Text = cmsg.author.username + "投掷出了：(";
+                                var Text = `${cmsg.author.username}投掷出了：(`;
 
                                 for (let index = 0; index < diceNum; index++) {
                                     var ran = Math.floor(Math.random() * diceMax + 1);
                                     Sum += ran;
                                     if (index < diceNum - 1) {
-                                        Text += ran.toString() + " + ";
+                                        Text += `${ran.toString()} + `;
                                     }
                                     else if (index == diceNum - 1) {
-                                        Text += ran.toString() + ")";
+                                        Text += `${ran.toString()})`;
                                     }
                                 }
 
-                                Text += " = " + Sum.toString();
+                                Text += ` =  ${Sum.toString()}`;
 
                                 var Success = success_test(Sum, skill);
 
-                                Send(Text + "\n" + Success);
+                                Send(`${Text}\n${Success}`);
                             }
                             else {
-                                Send("为避免服务器压力过大，一次最多只能投掷一千个骰子，每个骰子最多一万面\n当前设定的骰子数：" + diceNum + "\n当前设定的骰子面数：" + diceMax);
+                                Send(`为避免服务器压力过大，一次最多只能投掷一千个骰子，每个骰子最多一万面\n当前设定的骰子数：${diceNum}\n当前设定的骰子面数：${diceMax}`);
                             }
                         }
                     }
@@ -325,25 +317,25 @@ function Roll(i) {
                             var plus = parseInt(ps[1]);
                             if (diceNum <= 1000 && diceMax <= 10000) { //为避免服务器压力过大或被人爆破，限制一下dice的个数上限为一千个，dice的面数最多为一万面
                                 var Sum = 0;
-                                var Text = cmsg.author.username + "投掷出了：(";
+                                var Text = `${cmsg.author.username}投掷出了：(`;
 
                                 for (let index = 0; index < diceNum; index++) {
                                     var ran = Math.floor(Math.random() * diceMax + 1);
                                     Sum += ran;
                                     if (index < diceNum - 1) {
-                                        Text += ran.toString() + " + ";
+                                        Text += `${ran.toString()} + `;
                                     }
                                     else if (index == diceNum - 1) {
-                                        Text += ran.toString() + ")";
+                                        Text += `${ran.toString()})`;
                                     }
                                 }
 
-                                Text += " + " + plus.toString() + " = " + (Sum + plus).toString();
+                                Text += ` + ${plus.toString()} = ${(Sum + plus).toString()}`;
 
                                 Send(Text);
                             }
                             else {
-                                Send("为避免服务器压力过大，一次最多只能投掷一千个骰子，每个骰子最多一万面\n当前设定的骰子数：" + diceNum + "\n当前设定的骰子面数：" + diceMax);
+                                Send(`为避免服务器压力过大，一次最多只能投掷一千个骰子，每个骰子最多一万面\n当前设定的骰子数：${diceNum}\n当前设定的骰子面数：${diceMax}`);
                             }
                         }
                     }
@@ -355,29 +347,29 @@ function Roll(i) {
                             var skill = parseInt(sp[1]);
                             if (diceNum <= 1000 && diceMax <= 10000) { //为避免服务器压力过大或被人爆破，限制一下dice的个数上限为一千个，dice的面数最多为一万面
                                 var Sum = 0;
-                                var Text = cmsg.author.username + "投掷出了：(";
+                                var Text = `${cmsg.author.username}投掷出了：(`;
 
                                 for (let index = 0; index < diceNum; index++) {
                                     var ran = Math.floor(Math.random() * diceMax + 1);
                                     Sum += ran;
                                     if (index < diceNum - 1) {
-                                        Text += ran.toString() + " + ";
+                                        Text += `${ran.toString()} + `;
                                     }
                                     else if (index == diceNum - 1) {
-                                        Text += ran.toString() + ")";
+                                        Text += `${ran.toString()})`;
                                     }
                                 }
 
-                                Text += " + " + plus.toString() + " = " + (Sum + plus).toString();
+                                Text += ` + ${plus.toString()} = ${(Sum + plus).toString()}`;
 
                                 Sum += plus;
 
                                 var Success = success_test(Sum, skill);
 
-                                Send(Text + "\n" + Success);
+                                Send(`${Text}\n${Success}`);
                             }
                             else {
-                                Send("为避免服务器压力过大，一次最多只能投掷一千个骰子，每个骰子最多一万面\n当前设定的骰子数：" + diceNum + "\n当前设定的骰子面数：" + diceMax);
+                                Send(`为避免服务器压力过大，一次最多只能投掷一千个骰子，每个骰子最多一万面\n当前设定的骰子数：${diceNum}\n当前设定的骰子面数：${diceMax}`);
                             }
                         }
                     }
@@ -393,11 +385,11 @@ function Roll(i) {
                             var diceMax = parseInt(ft[0]);
                             if (diceMax <= 10000) { //为避免服务器压力过大或被人爆破，限制一下dice的个数上限为一千个，dice的面数最多为一万面
                                 var Sum = Math.floor(Math.random() * diceMax + 1);
-                                var Text = cmsg.author.username + "投掷出了：" + Sum.toString();
+                                var Text = `${cmsg.author.username}投掷出了：${Sum.toString()}`;
                                 Send(Text);
                             }
                             else {
-                                Send("为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：" + diceMax);
+                                Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`);
                             }
                         }
                     }
@@ -410,14 +402,14 @@ function Roll(i) {
                             var skill = parseInt(sp[1]);
                             if (diceMax <= 1000) { //为避免服务器压力过大或被人爆破，限制一下dice的个数上限为一千个，dice的面数最多为一万面
                                 var Sum = Math.floor(Math.random() * diceMax + 1);
-                                var Text = cmsg.author.username + "投掷出了：" + Sum.toString();
+                                var Text = `${cmsg.author.username}投掷出了：${Sum.toString()}`;
 
                                 var Success = success_test(Sum, skill);
 
-                                Send(Text + "\n" + Success);
+                                Send(`${Text}\n${Success}`);
                             }
                             else {
-                                Send("为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：" + diceMax);
+                                Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`);
                             }
                         }
                     }
@@ -430,11 +422,11 @@ function Roll(i) {
                             var plus = parseInt(ps[1]);
                             if (diceMax <= 10000) { //为避免服务器压力过大或被人爆破，限制一下dice的个数上限为一千个，dice的面数最多为一万面
                                 var Sum = Math.floor(Math.random() * diceMax + 1);
-                                var Text = cmsg.author.username + "投掷出了：" + Sum.toString();
+                                var Text = `${cmsg.author.username}投掷出了：${Sum.toString()}`;
                                 Send(Text);
                             }
                             else {
-                                Send("为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：" + diceMax);
+                                Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`);
                             }
                         }
                     }
@@ -445,18 +437,18 @@ function Roll(i) {
                             var skill = parseInt(sp[1]);
                             if (diceMax <= 10000) { //为避免服务器压力过大或被人爆破，限制一下dice的个数上限为一千个，dice的面数最多为一万面
                                 var Sum = Math.floor(Math.random() * diceMax + 1);
-                                var Text = cmsg.author.username + "投掷出了：" + Sum.toString();
+                                var Text = `${cmsg.author.username}投掷出了：${Sum.toString()}`;
 
-                                Text += " + " + plus.toString() + " = " + (Sum + plus).toString();
+                                Text += ` + ${plus.toString()} = ${(Sum + plus).toString()}`;
 
                                 Sum += plus;
 
                                 var Success = success_test(Sum, skill);
 
-                                Send(Text + "\n" + Success);
+                                Send(`${Text}\n${Success}`);
                             }
                             else {
-                                Send("为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：" + diceMax);
+                                Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`);
                             }
                         }
                     }
@@ -472,11 +464,11 @@ function Roll(i) {
                         var diceMax = parseInt(ft[0]);
                         if (diceMax <= 10000) { //为避免服务器压力过大或被人爆破，限制一下dice的个数上限为一千个，dice的面数最多为一万面
                             var Sum = Math.floor(Math.random() * diceMax + 1);
-                            var Text = cmsg.author.username + "投掷出了：" + Sum.toString();
+                            var Text = `${cmsg.author.username}投掷出了：${Sum.toString()}`;
                             Send(Text);
                         }
                         else {
-                            Send("为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：" + diceMax);
+                            Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`);
                         }
                     }
                 }
@@ -486,14 +478,14 @@ function Roll(i) {
                         var skill = parseInt(sp[1]);
                         if (diceMax <= 1000) { //为避免服务器压力过大或被人爆破，限制一下dice的个数上限为一千个，dice的面数最多为一万面
                             var Sum = Math.floor(Math.random() * diceMax + 1);
-                            var Text = cmsg.author.username + "投掷出了：" + Sum.toString();
+                            var Text = `${cmsg.author.username}投掷出了：${Sum.toString()}`;
 
                             var Success = success_test(Sum, skill);
 
-                            Send(Text + "\n" + Success);
+                            Send(`${Text}\n${Success}`);
                         }
                         else {
-                            Send("为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：" + diceMax);
+                            Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`);
                         }
                     }
                 }
@@ -506,11 +498,11 @@ function Roll(i) {
                         var plus = parseInt(ps[1]);
                         if (diceMax <= 10000) { //为避免服务器压力过大或被人爆破，限制一下dice的个数上限为一千个，dice的面数最多为一万面
                             var Sum = Math.floor(Math.random() * diceMax + 1);
-                            var Text = cmsg.author.username + "投掷出了：" + Sum.toString();
+                            var Text = `${cmsg.author.username}投掷出了：${Sum.toString()}`;
                             Send(Text);
                         }
                         else {
-                            Send("为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：" + diceMax);
+                            Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`);
                         }
                     }
                 }
@@ -521,18 +513,18 @@ function Roll(i) {
                         var skill = parseInt(sp[1]);
                         if (diceMax <= 10000) { //为避免服务器压力过大或被人爆破，限制一下dice的个数上限为一千个，dice的面数最多为一万面
                             var Sum = Math.floor(Math.random() * diceMax + 1);
-                            var Text = cmsg.author.username + "投掷出了：" + Sum.toString();
+                            var Text = `${cmsg.author.username}投掷出了：${Sum.toString()}`;
 
-                            Text += " + " + plus.toString() + " = " + (Sum + plus).toString();
+                            Text += ` + ${plus.toString()} = ${(Sum + plus).toString()}`;
 
                             Sum += plus;
 
                             var Success = success_test(Sum, skill);
 
-                            Send(Text + "\n" + Success);
+                            Send(`${Text}\n${Success}`);
                         }
                         else {
-                            Send("为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：" + diceMax);
+                            Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`);
                         }
                     }
                 }
@@ -541,7 +533,7 @@ function Roll(i) {
     }
     else { //r
         var toudian = Math.floor(Math.random() * 100 + 1);
-        Send(cmsg.author.username + "投掷出了：" + toudian);
+        Send(`${cmsg.author.username}投掷出了：${toudian}`);
     }
 }
 
@@ -549,22 +541,22 @@ function success_test(Sum, skill)
 {
     var Success = '';
     if (Sum > 95 && Sum > skill) {
-        Success = "巨大失败";
+        Success = "**巨大失败**";
     }
     else if (Sum > skill) {
-        Success = "普通失败"
+        Success = "**普通失败**"
     }
     else if (Sum <= 5 && Sum <= skill) {
-        Success = "巨大成功";
+        Success = "**巨大成功**";
     }
     else if (Sum > skill / 2) {
-        Success = "普通成功";
+        Success = "**普通成功**";
     }
     else if (Sum <= skill / 2 && Sum > skill / 5) {
-        Success = "困难成功";
+        Success = "**困难成功**";
     }
     else if (Sum <= skill / 5) {
-        Success = "极难成功";
+        Success = "**极难成功**";
     }
     return Success;
 }
@@ -595,6 +587,6 @@ function SecretDice()
 function Send(s)
 {
     if (cmsg != null) {
-        bot.sendChannelMessage(types_1.MessageType.text, cmsg.channelId, s, cmsg.msgId);
+        bot.sendChannelMessage(types_1.MessageType.kmarkdown, cmsg.channelId, s, cmsg.msgId);
     }
 }

@@ -1,7 +1,8 @@
 {
     "mode": "webhook",
     "port": 8080,
-    "key": "YOUR ENCRYPT KEY HERE",
+    "key": "YOUR KEY HERE",
     "token": "YOUR TOKEN HERE",
-    "verifyToken": "YOUR VERIFY TOKEN HERE"
+    "verifyToken": "YOUR VERIFY TOKEN HERE",
+    "BotName": "素包子#1132416142"
 }
