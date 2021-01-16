@@ -23,6 +23,7 @@ fs.readFile("./config.json", (error, data) => {
       console.info(`Logged in as ${bot.user.tag}!`);
     });
     bot.on('message', (msg) => {
+      //console.log(msg.content);
       cmsg = msg;
       Process(cmsg.content);
     });
