@@ -10,7 +10,7 @@
   "port": 8080,
   "key": "YOUR ENCRYPT KEY HERE",
   "token": "YOUR TOEKN HERE",
-  "verifyToken": "YOUR VERIFY TOEKN HERE"
+  "verifyToken": "YOUR VERIFY TOEKN HERE",
   "BotName": "素包子##1132416142"
 }
 ```
