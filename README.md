@@ -14,7 +14,7 @@
   "BotName": "素包子##1132416142"
 }
 ```
-5. 如果正确填写文件中的BotName，那么就可以处理你的机器人被@的情况。要正确获取DiceBot，请取消代码文件第33行的注释。
+5. 如果正确填写文件中的BotName，那么就可以处理你的机器人被@的情况。要正确获取DiceBot，请取消代码文件第34行的注释。
 ```JavaScript
 fs.readFile("./config.json", (error, data) => {
     if (error) {
@@ -87,7 +87,7 @@ node kaiheila/BotRoot/SKDiceBot.js
 }
 
 ```
-5. 如果正确填写文件中的BotName，那么就可以处理你的机器人被@的情况。要正确获取DiceBot，请取消代码文件第26行的注释。
+5. 如果正确填写文件中的BotName，那么就可以处理你的机器人被@的情况。要正确获取DiceBot，请取消代码文件第27行的注释。
 ```JavaScript
 fs.readFile("./config.json", (error, data) => {
   if (error) {
