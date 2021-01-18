@@ -1,4 +1,3 @@
-//Copyright (c) 2021 深空
 const Discord = require('discord.js');
 const fs = require('fs');
 const bot = new Discord.Client();
@@ -24,9 +23,9 @@ fs.readFile("./config.json", (error, data) => {
       console.info(`Logged in as ${bot.user.tag}!`);
     });
     bot.on('message', (msg) => {
-      //console.log(msg.content);
       cmsg = msg;
       Process(cmsg.content);
+	//console.log(msg.content);
     });
   }
 });

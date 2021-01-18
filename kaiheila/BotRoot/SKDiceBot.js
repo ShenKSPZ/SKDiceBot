@@ -1,4 +1,3 @@
-//Copyright (c) 2021 深空
 const Bot = require('kaiheila-bot-root').KaiheilaBot
 var fs = require('fs');
 const types_1 = require("kaiheila-bot-root/dist/types")
@@ -27,13 +26,14 @@ fs.readFile("./config.json", (error, data) => {
             port: BotConfig.port,
             key: BotConfig.key,
             token: BotConfig.token,
-            verifyToken: BotConfig.verifyToken
+            verifyToken: BotConfig.verifyToken,
+            ignoreDecryptError: true
         });
         bot.listen();
         bot.on('textmessage', (e) => {
-            //console.log(e.content);
             cmsg = new types_1.TextMessage(e);
             Process(cmsg.content);
+		//console.log(e);
         });
         global.botInstance = bot
         console.log('DiceBot Start!');
@@ -48,7 +48,7 @@ function Process(i) {
 			input = temp;
 		}
 		else{
-			Send('请输入"-help"或"-帮助"来查看骰子娘的使用方法。');
+			Send('请输入".help"或".帮助"来查看骰子娘的使用方法。');
 		}
     }
     else if (new String(input).search(`@${BotConfig.BotName}`) != -1){
@@ -57,10 +57,10 @@ function Process(i) {
                 input = temp;
         }
         else{
-                Send('请输入"-help"或"-帮助"来查看骰子娘的使用方法。');
+                Send('请输入".help"或".帮助"来查看骰子娘的使用方法。');
         }
     }
-    if (input[0] == '-') {
+    if (input[0] == '.' || input[0] == '。') {
         var Comm = new String(input).substring(1, input.length);
         console.log(`Receive Commend: ${Comm} From ${cmsg.channelName}(${cmsg.channelId}) Sent by: ${cmsg.author.username}(${cmsg.author.id})`);
         if (Comm == 'help' || Comm == '帮助') {
@@ -86,7 +86,7 @@ function Process(i) {
             COC7();
             }
             else if (Comm == 'coc') {
-            Send('目前只支持随机生成COC 7版的人物卡，请输入 -COC7 来生成，想要帮忙开发这个功能请添加“深空#4088”为好友来一起让素包子变得更好');
+            Send('目前只支持随机生成COC 7版的人物卡，请输入 .COC7 来生成，想要帮忙开发这个功能请添加“深空#4088”为好友来一起让素包子变得更好');
             }
             else if (Comm == 'dnd') {
             Send('目前只支持随机生成COC 7版的人物卡，素包子暂时还没有玩过DND，想要帮忙开发这个功能请添加“深空#4088”为好友来一起让素包子变得更好');
@@ -508,7 +508,7 @@ function Roll(i) {
                         }
                     }
                 }
-                else if (sp.length == 2) { //rd[ps0]+[sp0][/s][sp1] //TODO
+                else if (sp.length == 2) { //rd[ps0]+[sp0][/s][sp1]
                     if (NumPatt.test(ps[0]) && NumPatt.test(sp[0]) && NumPatt.test(sp[1])) { //验证是否均全为数字
                         var diceMax = parseInt(ps[0]);
                         var plus = parseInt(sp[0]);

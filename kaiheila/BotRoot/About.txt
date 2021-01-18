@@ -1,10 +1,10 @@
 欢迎使用深空制作的跑团骰子娘-素包子
 本骰娘使用SKDiceBot框架v1.2
-项目开源地址：https://github.com/ShenKSPZ/SKDiceBot
+项目开源地址：[https://github.com/ShenKSPZ/SKDiceBot](https://github.com/ShenKSPZ/SKDiceBot)
 开发者：深空#4088
 
 最近更新：
--现在允许@骰子娘了，单纯@会提示输入-help，@带指令也可以正常处理
+-现在允许@骰子娘了，单纯@会提示输入-help，普通的@可以正常处理指令
 
 -加入了SanCheck功能
 
