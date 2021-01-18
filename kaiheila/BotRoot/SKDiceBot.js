@@ -32,9 +32,9 @@ fs.readFile("./config.json", (error, data) => {
         });
         bot.listen();
         bot.on('textmessage', (e) => {
+		    //console.log(e.content);
             cmsg = new types_1.TextMessage(e);
             Process(cmsg.content);
-		//console.log(e);
         });
         global.botInstance = bot
         console.log('DiceBot Start!');
