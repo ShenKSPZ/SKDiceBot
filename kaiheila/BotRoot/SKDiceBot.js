@@ -1,3 +1,4 @@
+//Copyright (c) 2021 深空
 const Bot = require('kaiheila-bot-root').KaiheilaBot
 var fs = require('fs');
 const types_1 = require("kaiheila-bot-root/dist/types")
