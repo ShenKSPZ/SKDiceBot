@@ -7,12 +7,12 @@ var cmsg;
 var bot;
 
 let BotConfig = {
-    mode: string,
-    port: number,
-    key: string,
-    token: string,
-    verifyToken: string,
-    BotName: string,
+    mode: "",
+    port: 0,
+    key: "",
+    token: "",
+    verifyToken: "",
+    BotName: "",
 }
 
 fs.readFile("./config.json", (error, data) => {

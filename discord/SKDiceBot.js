@@ -6,10 +6,10 @@ const NumPatt = /^[0-9]*$/;
 var cmsg;
 
 let BotConfig = {
-  mode: string,
-  port: number,
-  token: string,
-  BotName: string,
+  mode: "",
+  port: 0,
+  token: "",
+  BotName: "",
 }
 
 fs.readFile("./config.json", (error, data) => {
@@ -64,11 +64,11 @@ function Process(i) {
     }
     else if (Comm[0] == 'r' && Comm[1] == 'h') {
       //暗骰
-      SecretDice();
+      Roll(new String(Comm).substring(2, Comm.length), true);
     }
     else if (Comm[0] == 'r') {
       //正常投点
-      Roll(new String(Comm).substring(1, Comm.length));
+      Roll(new String(Comm).substring(1, Comm.length), false);
     }
     else if (Comm == 'coc7人物卡' || Comm == '获取coc7人物卡') {
       Send("COC7版人物卡下载地址：https://www.jianguoyun.com/p/DeMhdv4Ql5e1BxiahboB");
@@ -221,7 +221,7 @@ function BasePoint() {
   return (Math.floor(Math.random() * 6 + 1) + Math.floor(Math.random() * 6 + 1) + Math.floor(Math.random() * 6 + 1)) * 5;
 }
 
-function Roll(i) {
+function Roll(i, isPrivatly) {
   if (i != "") {
     var ft = new String(i).split("d");
     if (ft.length == 2) { //r[x]d[x] && r[x]d[x]+[x] && r[x]d[x][\s][x] && r[x]d[x]+[x][\s][x]
@@ -252,10 +252,10 @@ function Roll(i) {
 
                 Text += ` =  ${Sum.toString()}`;
 
-                Send(Text);
+                Send(Text, isPrivatly);
               }
               else {
-                Send(`为避免服务器压力过大，一次最多只能投掷一千个骰子，每个骰子最多一万面\n当前设定的骰子数：${diceNum}\n当前设定的骰子面数：${diceMax}`);
+                Send(`为避免服务器压力过大，一次最多只能投掷一千个骰子，每个骰子最多一万面\n当前设定的骰子数：${diceNum}\n当前设定的骰子面数：${diceMax}`, isPrivatly);
               }
             }
           }
@@ -283,10 +283,10 @@ function Roll(i) {
 
                 var Success = success_test(Sum, skill);
 
-                Send(`${Text}\n${Success}`);
+                Send(`${Text}\n${Success}`, isPrivatly);
               }
               else {
-                Send(`为避免服务器压力过大，一次最多只能投掷一千个骰子，每个骰子最多一万面\n当前设定的骰子数：${diceNum}\n当前设定的骰子面数：${diceMax}`);
+                Send(`为避免服务器压力过大，一次最多只能投掷一千个骰子，每个骰子最多一万面\n当前设定的骰子数：${diceNum}\n当前设定的骰子面数：${diceMax}`, isPrivatly);
               }
             }
           }
@@ -315,10 +315,10 @@ function Roll(i) {
 
                 Text += ` + ${plus.toString()} = ${(Sum + plus).toString()}`;
 
-                Send(Text);
+                Send(Text, isPrivatly);
               }
               else {
-                Send(`为避免服务器压力过大，一次最多只能投掷一千个骰子，每个骰子最多一万面\n当前设定的骰子数：${diceNum}\n当前设定的骰子面数：${diceMax}`);
+                Send(`为避免服务器压力过大，一次最多只能投掷一千个骰子，每个骰子最多一万面\n当前设定的骰子数：${diceNum}\n当前设定的骰子面数：${diceMax}`, isPrivatly);
               }
             }
           }
@@ -349,10 +349,10 @@ function Roll(i) {
 
                 var Success = success_test(Sum, skill);
 
-                Send(`${Text}\n${Success}`);
+                Send(`${Text}\n${Success}`, isPrivatly);
               }
               else {
-                Send(`为避免服务器压力过大，一次最多只能投掷一千个骰子，每个骰子最多一万面\n当前设定的骰子数：${diceNum}\n当前设定的骰子面数：${diceMax}`);
+                Send(`为避免服务器压力过大，一次最多只能投掷一千个骰子，每个骰子最多一万面\n当前设定的骰子数：${diceNum}\n当前设定的骰子面数：${diceMax}`, isPrivatly);
               }
             }
           }
@@ -369,10 +369,10 @@ function Roll(i) {
               if (diceMax <= 10000) { //为避免服务器压力过大或被人爆破，限制一下dice的个数上限为一千个，dice的面数最多为一万面
                 var Sum = Math.floor(Math.random() * diceMax + 1);
                 var Text = `${cmsg.author.username}投掷出了：${Sum.toString()}`;
-                Send(Text);
+                Send(Text, isPrivatly);
               }
               else {
-                Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`);
+                Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`, isPrivatly);
               }
             }
           }
@@ -389,10 +389,10 @@ function Roll(i) {
 
                 var Success = success_test(Sum, skill);
 
-                Send(`${Text}\n${Success}`);
+                Send(`${Text}\n${Success}`, isPrivatly);
               }
               else {
-                Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`);
+                Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`, isPrivatly);
               }
             }
           }
@@ -406,10 +406,10 @@ function Roll(i) {
               if (diceMax <= 10000) { //为避免服务器压力过大或被人爆破，限制一下dice的个数上限为一千个，dice的面数最多为一万面
                 var Sum = Math.floor(Math.random() * diceMax + 1);
                 var Text = `${cmsg.author.username}投掷出了：${Sum.toString()}`;
-                Send(Text);
+                Send(Text, isPrivatly);
               }
               else {
-                Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`);
+                Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`, isPrivatly);
               }
             }
           }
@@ -428,10 +428,10 @@ function Roll(i) {
 
                 var Success = success_test(Sum, skill);
 
-                Send(`${Text}\n${Success}`);
+                Send(`${Text}\n${Success}`, isPrivatly);
               }
               else {
-                Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`);
+                Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`, isPrivatly);
               }
             }
           }
@@ -448,10 +448,10 @@ function Roll(i) {
             if (diceMax <= 10000) { //为避免服务器压力过大或被人爆破，限制一下dice的个数上限为一千个，dice的面数最多为一万面
               var Sum = Math.floor(Math.random() * diceMax + 1);
               var Text = `${cmsg.author.username}投掷出了：${Sum.toString()}`;
-              Send(Text);
+              Send(Text, isPrivatly);
             }
             else {
-              Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`);
+              Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`, isPrivatly);
             }
           }
         }
@@ -465,10 +465,10 @@ function Roll(i) {
 
               var Success = success_test(Sum, skill);
 
-              Send(`${Text}\n${Success}`);
+              Send(`${Text}\n${Success}`, isPrivatly);
             }
             else {
-              Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`);
+              Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`, isPrivatly);
             }
           }
         }
@@ -482,10 +482,10 @@ function Roll(i) {
             if (diceMax <= 10000) { //为避免服务器压力过大或被人爆破，限制一下dice的个数上限为一千个，dice的面数最多为一万面
               var Sum = Math.floor(Math.random() * diceMax + 1);
               var Text = `${cmsg.author.username}投掷出了：${Sum.toString()}`;
-              Send(Text);
+              Send(Text, isPrivatly);
             }
             else {
-              Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`);
+              Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`, isPrivatly);
             }
           }
         }
@@ -504,10 +504,10 @@ function Roll(i) {
 
               var Success = success_test(Sum, skill);
 
-              Send(`${Text}\n${Success}`);
+              Send(`${Text}\n${Success}`, isPrivatly);
             }
             else {
-              Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`);
+              Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`, isPrivatly);
             }
           }
         }
@@ -516,7 +516,7 @@ function Roll(i) {
   }
   else { //r
     var toudian = Math.floor(Math.random() * 100 + 1);
-    Send(`${cmsg.author.username}投掷出了：${toudian}`);
+    Send(`${cmsg.author.username}投掷出了：${toudian}`, isPrivatly);
   }
 }
 
@@ -559,12 +559,13 @@ function About() {
   ReadSendFile("./About.txt");
 }
 
-function SecretDice() {
-  Send("暂未开放此功能")
-}
-
-function Send(s) {
+function Send(s, privatly = false) {
   if (cmsg != null) {
-    cmsg.reply(s);
+    if (privatly) {
+      cmsg.author.send(s);
+    }
+    else {
+      cmsg.reply(s);
+    }
   }
 }
