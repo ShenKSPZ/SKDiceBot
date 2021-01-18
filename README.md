@@ -14,7 +14,7 @@
   "BotName": "素包子##1132416142"
 }
 ```
-5. 如果正确填写文件中的BotName，那么就可以处理你的机器人被@的情况。要正确获取DiceBot，请取消代码文件第34行的注释。
+5. 如果正确填写文件中的BotName，那么就可以处理你的机器人被@的情况。要正确获取DiceBot，请取消代码文件第35行的注释。
 ```JavaScript
 fs.readFile("./config.json", (error, data) => {
     if (error) {
@@ -28,7 +28,8 @@ fs.readFile("./config.json", (error, data) => {
             port: BotConfig.port,
             key: BotConfig.key,
             token: BotConfig.token,
-            verifyToken: BotConfig.verifyToken
+            verifyToken: BotConfig.verifyToken,
+            ignoreDecryptError: true
         });
         bot.listen();
         bot.on('textmessage', (e) => {
