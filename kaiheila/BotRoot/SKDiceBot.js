@@ -7,12 +7,12 @@ var cmsg;
 var bot;
 
 let BotConfig = {
-    mode: "",
-    port: 0,
-    key: "",
-    token: "",
-    verifyToken: "",
-    BotName: "",
+    mode: string,
+    port: number,
+    key: string,
+    token: string,
+    verifyToken: string,
+    BotName: string,
 }
 
 fs.readFile("./config.json", (error, data) => {
@@ -32,7 +32,7 @@ fs.readFile("./config.json", (error, data) => {
         });
         bot.listen();
         bot.on('textmessage', (e) => {
-		    //console.log(e.content);
+            //console.log(e.content);
             cmsg = new types_1.TextMessage(e);
             Process(cmsg.content);
         });
@@ -43,22 +43,22 @@ fs.readFile("./config.json", (error, data) => {
 
 function Process(i) {
     var input = new String(i).toLowerCase();
-    if (new String(input).search(`@${BotConfig.BotName} `) != -1){
+    if (new String(input).search(`@${BotConfig.BotName} `) != -1) {
         var temp = new String(input).replace(`@${BotConfig.BotName} `, "");
-		if(temp != ""){
-			input = temp;
-		}
-		else{
-			Send('请输入".help"或".帮助"来查看骰子娘的使用方法。');
-		}
-    }
-    else if (new String(input).search(`@${BotConfig.BotName}`) != -1){
-        var temp = new String(input).replace(`@${BotConfig.BotName}`, "");
-        if(temp != ""){
-                input = temp;
+        if (temp != "") {
+            input = temp;
         }
-        else{
-                Send('请输入".help"或".帮助"来查看骰子娘的使用方法。');
+        else {
+            Send('请输入".help"或".帮助"来查看骰子娘的使用方法。');
+        }
+    }
+    else if (new String(input).search(`@${BotConfig.BotName}`) != -1) {
+        var temp = new String(input).replace(`@${BotConfig.BotName}`, "");
+        if (temp != "") {
+            input = temp;
+        }
+        else {
+            Send('请输入".help"或".帮助"来查看骰子娘的使用方法。');
         }
     }
     if (input[0] == '.' || input[0] == '。') {
@@ -72,46 +72,46 @@ function Process(i) {
             //关于
             About();
         }
-        else if (Comm[0] == 'r' && Comm[1] == 'h'){
+        else if (Comm[0] == 'r' && Comm[1] == 'h') {
             //暗骰
             SecretDice();
         }
-        else if (Comm[0] == 'r'){
+        else if (Comm[0] == 'r') {
             //正常投点
             Roll(new String(Comm).substring(1, Comm.length));
         }
         else if (Comm == 'coc7人物卡' || Comm == '获取coc7人物卡') {
             Send("COC7版人物卡下载地址：https://www.jianguoyun.com/p/DeMhdv4Ql5e1BxiahboB");
-            }
-            else if (Comm == 'coc7') {
+        }
+        else if (Comm == 'coc7') {
             COC7();
-            }
-            else if (Comm == 'coc') {
+        }
+        else if (Comm == 'coc') {
             Send('目前只支持随机生成COC 7版的人物卡，请输入 .COC7 来生成，想要帮忙开发这个功能请添加“深空#4088”为好友来一起让素包子变得更好');
-            }
-            else if (Comm == 'dnd') {
+        }
+        else if (Comm == 'dnd') {
             Send('目前只支持随机生成COC 7版的人物卡，素包子暂时还没有玩过DND，想要帮忙开发这个功能请添加“深空#4088”为好友来一起让素包子变得更好');
-            }
-        else if (Comm[0] == "s" && Comm[1] == "c"){
+        }
+        else if (Comm[0] == "s" && Comm[1] == "c") {
             SanCheck(new String(Comm).substring(2, Comm.length));
         }
     }
 }
 
-function SanCheck(i){
-	//sc[sl0]/[sl1]
-	var sl = new String(i).split("/");
-	if(sl.length == 2 && sl[0] != ""){ //sc[sl0]/[sl1]
-		var sp = sl[1].split(" ");
-		if(sp.length == 2 && sp[0] != ""){ //sc[sl0]/[sp0][/s][sp1]
-			if(NumPatt.test(sp[1])){
-				var skill = parseInt(sp[1]);
-				var ran = Math.floor(Math.random() * 100 + 1);
+function SanCheck(i) {
+    //sc[sl0]/[sl1]
+    var sl = new String(i).split("/");
+    if (sl.length == 2 && sl[0] != "") { //sc[sl0]/[sl1]
+        var sp = sl[1].split(" ");
+        if (sp.length == 2 && sp[0] != "") { //sc[sl0]/[sp0][/s][sp1]
+            if (NumPatt.test(sp[1])) {
+                var skill = parseInt(sp[1]);
+                var ran = Math.floor(Math.random() * 100 + 1);
                 var Text = `${cmsg.author.username}投掷出了：${ran.toString()}`;
                 //深空投掷出了：45 成功
                 //SanCheck检定：1d3 = 1
                 //最终San值：45 - 1 = 44
-				if(ran >= 96 && ran > skill){ //大失败
+                if (ran >= 96 && ran > skill) { //大失败
                     Text += " 巨大失败\nSanCheck检定：";
                     if (NumPatt.test(sp[0])) {
                         var Int = parseInt(sp[0]);
@@ -130,8 +130,8 @@ function SanCheck(i){
                             }
                         }
                     }
-				}
-				else if(ran <= 5 && ran <= skill){ //大成功
+                }
+                else if (ran <= 5 && ran <= skill) { //大成功
                     Text += " 巨大成功\nSanCheck检定：";
                     if (NumPatt.test(scm[0])) {
                         var Int = parseInt(sc[0]);
@@ -150,7 +150,7 @@ function SanCheck(i){
                             }
                         }
                     }
-				}
+                }
                 else if (ran > skill) { //失败 
                     Text += " 失败\nSanCheck检定：";
                     if (NumPatt.test(sp[0])) { //sc[sl0]/[sp0][/s][sp1]
@@ -183,8 +183,8 @@ function SanCheck(i){
                             }
                         }
                     }
-				}
-				else if(ran <= skill){ //成功
+                }
+                else if (ran <= skill) { //成功
                     Text += " 成功\nSanCheck检定：";
                     if (NumPatt.test(sl[0])) { //sc[sl0]/[sp0][/s][sp1]
                         var Int = parseInt(sl[0]);
@@ -217,27 +217,17 @@ function SanCheck(i){
                             }
                         }
                     }
-				}
-			}
-		}
-	}
+                }
+            }
+        }
+    }
 }
 
-function COC7()
-{
-    var STR = BasePoint();
-    var CON = BasePoint();
-    var SIZ = BasePoint();
-    var DEX = BasePoint();
-    var APP = BasePoint();
-    var INT = BasePoint();
-    var POW = BasePoint();
-    var EDU = BasePoint();
-    Send(`${cmsg.author.username}的随机人物属性：\n力量STR：${STR}\n体质CON：${CON}\n体型SIZ：${SIZ}\n敏捷DEX：${DEX}\n外貌APP：${APP}\n智力INT：${INT}\n意志POW：${POW}\n教育EDU：${EDU}`);
+function COC7() {
+    Send(`${cmsg.author.username}的随机人物属性：\n力量STR：${BasePoint()}\n体质CON：${BasePoint()}\n体型SIZ：${BasePoint()}\n敏捷DEX：${BasePoint()}\n外貌APP：${BasePoint()}\n智力INT：${BasePoint()}\n意志POW：${BasePoint()}\n教育EDU：${BasePoint()}`);
 }
 
-function BasePoint()
-{
+function BasePoint() {
     return (Math.floor(Math.random() * 6 + 1) + Math.floor(Math.random() * 6 + 1) + Math.floor(Math.random() * 6 + 1)) * 5;
 }
 
@@ -362,14 +352,10 @@ function Roll(i) {
                                         Text += `${ran.toString()})`;
                                     }
                                 }
-
-                                Text += ` + ${plus.toString()} = ${(Sum + plus).toString()}`;
-
                                 Sum += plus;
+                                Text += ` + ${plus.toString()} = ${(Sum).toString()}`;
 
-                                var Success = success_test(Sum, skill);
-
-                                Send(`${Text}\n${Success}`);
+                                Send(`${Text}\n${success_test(Sum, skill)}`);
                             }
                             else {
                                 Send(`为避免服务器压力过大，一次最多只能投掷一千个骰子，每个骰子最多一万面\n当前设定的骰子数：${diceNum}\n当前设定的骰子面数：${diceMax}`);
@@ -407,9 +393,7 @@ function Roll(i) {
                                 var Sum = Math.floor(Math.random() * diceMax + 1);
                                 var Text = `${cmsg.author.username}投掷出了：${Sum.toString()}`;
 
-                                var Success = success_test(Sum, skill);
-
-                                Send(`${Text}\n${Success}`);
+                                Send(`${Text}\n${success_test(Sum, skill)}`);
                             }
                             else {
                                 Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`);
@@ -441,14 +425,10 @@ function Roll(i) {
                             if (diceMax <= 10000) { //为避免服务器压力过大或被人爆破，限制一下dice的个数上限为一千个，dice的面数最多为一万面
                                 var Sum = Math.floor(Math.random() * diceMax + 1);
                                 var Text = `${cmsg.author.username}投掷出了：${Sum.toString()}`;
-
-                                Text += ` + ${plus.toString()} = ${(Sum + plus).toString()}`;
-
                                 Sum += plus;
+                                Text += ` + ${plus.toString()} = ${(Sum).toString()}`;
 
-                                var Success = success_test(Sum, skill);
-
-                                Send(`${Text}\n${Success}`);
+                                Send(`${Text}\n${success_test(Sum, skill)}`);
                             }
                             else {
                                 Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`);
@@ -483,9 +463,7 @@ function Roll(i) {
                             var Sum = Math.floor(Math.random() * diceMax + 1);
                             var Text = `${cmsg.author.username}投掷出了：${Sum.toString()}`;
 
-                            var Success = success_test(Sum, skill);
-
-                            Send(`${Text}\n${Success}`);
+                            Send(`${Text}\n${success_test(Sum, skill)}`);
                         }
                         else {
                             Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`);
@@ -517,14 +495,10 @@ function Roll(i) {
                         if (diceMax <= 10000) { //为避免服务器压力过大或被人爆破，限制一下dice的个数上限为一千个，dice的面数最多为一万面
                             var Sum = Math.floor(Math.random() * diceMax + 1);
                             var Text = `${cmsg.author.username}投掷出了：${Sum.toString()}`;
-
-                            Text += ` + ${plus.toString()} = ${(Sum + plus).toString()}`;
-
                             Sum += plus;
+                            Text += ` + ${plus.toString()} = ${(Sum).toString()}`;
 
-                            var Success = success_test(Sum, skill);
-
-                            Send(`${Text}\n${Success}`);
+                            Send(`${Text}\n${success_test(Sum, skill)}`);
                         }
                         else {
                             Send(`为避免服务器压力过大，一个骰子最多一万面\n当前设定的骰子面数：${diceMax}`);
@@ -535,13 +509,11 @@ function Roll(i) {
         }
     }
     else { //r
-        var toudian = Math.floor(Math.random() * 100 + 1);
-        Send(`${cmsg.author.username}投掷出了：${toudian}`);
+        Send(`${cmsg.author.username}投掷出了：${Math.floor(Math.random() * 100 + 1)}`);
     }
 }
 
-function success_test(Sum, skill)
-{
+function success_test(Sum, skill) {
     var Success = '';
     if (Sum > 95 && Sum > skill) {
         Success = "**巨大失败**";
@@ -568,27 +540,23 @@ function ReadSendFile(filename) {
     fs.readFile(filename, (error, data) => {
         if (error)
             console.log(error);
-	Send(data.toString());
+        Send(data.toString());
     });
 }
 
-function Help()
-{
+function Help() {
     ReadSendFile("./Help.txt");
 }
 
-function About()
-{
+function About() {
     ReadSendFile("./About.txt");
 }
 
-function SecretDice()
-{
-	Send("目前因为开黑啦不允许非官方机器人私聊，所以暗骰功能无法使用。\n暗骰代替方案：\n请在服务器内新建一个文字频道，并让该频道只能被kp和骰子娘看到，然后在频道内进行正常投点来代替暗骰")
+function SecretDice() {
+    Send("目前因为开黑啦不允许非官方机器人私聊，所以暗骰功能无法使用。\n暗骰代替方案：\n请在服务器内新建一个文字频道，并让该频道只能被kp和骰子娘看到，然后在频道内进行正常投点来代替暗骰")
 }
 
-function Send(s)
-{
+function Send(s) {
     if (cmsg != null) {
         bot.sendChannelMessage(types_1.MessageType.kmarkdown, cmsg.channelId, s, cmsg.msgId);
     }

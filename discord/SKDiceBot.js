@@ -6,10 +6,10 @@ const NumPatt = /^[0-9]*$/;
 var cmsg;
 
 let BotConfig = {
-  mode: "",
-  port: 0,
-  token: "",
-  BotName: "",
+  mode: string,
+  port: number,
+  token: string,
+  BotName: string,
 }
 
 fs.readFile("./config.json", (error, data) => {
@@ -24,7 +24,7 @@ fs.readFile("./config.json", (error, data) => {
       console.info(`Logged in as ${bot.user.tag}!`);
     });
     bot.on('message', (msg) => {
-	    //console.log(msg.content);
+      //console.log(msg.content);
       cmsg = msg;
       Process(cmsg.content);
     });
@@ -214,15 +214,7 @@ function SanCheck(i) {
 }
 
 function COC7() {
-  var STR = BasePoint();
-  var CON = BasePoint();
-  var SIZ = BasePoint();
-  var DEX = BasePoint();
-  var APP = BasePoint();
-  var INT = BasePoint();
-  var POW = BasePoint();
-  var EDU = BasePoint();
-  Send(`${cmsg.author.username}的随机人物属性：\n力量STR：${STR}\n体质CON：${CON}\n体型SIZ：${SIZ}\n敏捷DEX：${DEX}\n外貌APP：${APP}\n智力INT：${INT}\n意志POW：${POW}\n教育EDU：${EDU}`);
+  Send(`${cmsg.author.username}的随机人物属性：\n力量STR：${BasePoint()}\n体质CON：${BasePoint()}\n体型SIZ：${BasePoint()}\n敏捷DEX：${BasePoint()}\n外貌APP：${BasePoint()}\n智力INT：${BasePoint()}\n意志POW：${BasePoint()}\n教育EDU：${BasePoint()}`);
 }
 
 function BasePoint() {
