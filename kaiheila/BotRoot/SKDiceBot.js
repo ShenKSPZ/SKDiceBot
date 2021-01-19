@@ -370,7 +370,6 @@ function Roll(i) {
                 if (ps.length == 1) { //rd[x][/s][x] && rd[x]
                     var sp = ft[0].split(" ");
                     if (sp.length == 1) { //rd[x]
-                        console
                         if (NumPatt.test(ft[0])) { //验证是否二者均全为数字，到此为止完全成功的话，即代表符合r[x]d[x]格式
                             var diceMax = parseInt(ft[0]);
                             if (diceMax <= 10000) { //为避免服务器压力过大或被人爆破，限制一下dice的个数上限为一千个，dice的面数最多为一万面
