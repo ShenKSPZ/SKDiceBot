@@ -116,7 +116,7 @@ function SanCheck(i) {
                     if (NumPatt.test(sp[0])) {
                         var Int = parseInt(sp[0]);
                         var skill = parseInt(sp[1]);
-                        Text += `最大值 ${sp[0]}\n最终San值：${sp[1]} - ${sp[0]} = ${(skill - Int).toString()}`;
+                        Text += `最大值 ${Int}\n最终San值：${sp[1]} - ${Int} = ${(skill - Int).toString()}`;
                         Send(Text);
                     }
                     else {
@@ -133,8 +133,8 @@ function SanCheck(i) {
                 }
                 else if (ran <= 5 && ran <= skill) { //大成功
                     Text += " 巨大成功\nSanCheck检定：";
-                    if (NumPatt.test(scm[0])) {
-                        var Int = parseInt(sc[0]);
+                    if (NumPatt.test(sl[0])) {
+                        var Int = parseInt(sl[0]);
                         var skill = parseInt(sc[1]);
                         Text += `最小值 ${sp[0]}\n最终San值：${sp[1]} - ${sp[0]} = ${(skill - Int).toString()}`;
                         Send(Text);
@@ -175,7 +175,7 @@ function SanCheck(i) {
                                         Text += `${ran.toString()} + `;
                                     }
                                     else if (index == diceNum - 1) {
-                                        Text += ran.toString() + ") = ";
+                                        Text += `${ran.toString()}) = `;
                                     }
                                 }
                                 Text += `${Sum.toString()}\n最终San值：${sp[1]} - ${Sum.toString()} = ${(skill - Sum).toString()}`;
@@ -208,7 +208,7 @@ function SanCheck(i) {
                                         Text += `${ran.toString()} + `;
                                     }
                                     else if (index == diceNum - 1) {
-                                        Text += `${ran.toString()} = `;
+                                        Text += `${ran.toString()}) = `;
                                     }
                                 }
 
